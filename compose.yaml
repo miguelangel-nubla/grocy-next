@@ -1,0 +1,15 @@
+services:
+  grocy:
+    #image: ghcr.io/miguelangel-nubla/grocy:latest
+    build: .
+    container_name: grocy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - ./config:/config
+    ports:
+      - "9283:80"
+      - "9284:443"
+    restart: unless-stopped

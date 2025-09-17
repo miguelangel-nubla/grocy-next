@@ -1,0 +1,57 @@
+# syntax=docker/dockerfile:1
+
+FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.22
+
+# set version label
+ARG BUILD_DATE
+ARG VERSION
+LABEL build_version="Grocy Custom Build version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+LABEL maintainer="custom-build"
+
+RUN \
+  echo "**** install build packages ****" && \
+  apk add --no-cache --virtual=build-dependencies \
+    git \
+    yarn && \
+  echo "**** install runtime packages ****" && \
+  apk add --no-cache \
+    php84-gd \
+    php84-intl \
+    php84-ldap \
+    php84-opcache \
+    php84-pdo \
+    php84-pdo_sqlite \
+    php84-tokenizer && \
+  echo "**** configure php-fpm to pass env vars ****" && \
+  sed -E -i 's/^;?clear_env ?=.*$/clear_env = no/g' /etc/php84/php-fpm.d/www.conf && \
+  grep -qxF 'clear_env = no' /etc/php84/php-fpm.d/www.conf || echo 'clear_env = no' >> /etc/php84/php-fpm.d/www.conf && \
+  echo "**** copy grocy application ****" && \
+  mkdir -p /app/www
+
+# Copy grocy application files
+COPY . /app/www/
+
+RUN \
+  echo "**** install composer packages ****" && \
+  composer install -d /app/www --no-dev && \
+  echo "**** install yarn packages ****" && \
+  cd /app/www && \
+  yarn --production && \
+  yarn cache clean && \
+  echo "**** set permissions ****" && \
+  chown -R abc:abc /app/www && \
+  chmod -R 755 /app/www && \
+  echo "**** cleanup ****" && \
+  apk del --purge \
+    build-dependencies && \
+  rm -rf \
+    /tmp/* \
+    $HOME/.cache \
+    $HOME/.composer
+
+# Copy custom configurations
+COPY docker-root/ /
+
+# ports and volumes
+EXPOSE 80 443
+VOLUME /config
