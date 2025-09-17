@@ -29,13 +29,17 @@ RUN \
   mkdir -p /app/www
 
 # Copy grocy application files
-COPY . /app/www/
+COPY grocy-source/ /app/www/
 
 RUN \
   echo "**** install composer packages ****" && \
   composer install -d /app/www --no-dev && \
   echo "**** install yarn packages ****" && \
   cd /app/www && \
+  rm -f .git && \
+  git init && \
+  git config user.email "docker@build.local" && \
+  git config user.name "Docker Build" && \
   yarn --production && \
   yarn cache clean && \
   echo "**** set permissions ****" && \
@@ -47,10 +51,11 @@ RUN \
   rm -rf \
     /tmp/* \
     $HOME/.cache \
-    $HOME/.composer
+    $HOME/.composer \
+    /app/www/.git
 
 # Copy custom configurations
-COPY docker-root/ /
+COPY root/ /
 
 # ports and volumes
 EXPOSE 80 443

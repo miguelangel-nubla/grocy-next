@@ -1,4 +1,4 @@
-# Grocy Enhanced - Container Inventory Management
+# Grocy Next - Container Inventory Management
 
 This repository contains an enhanced version of Grocy with additional container inventory management features.
 

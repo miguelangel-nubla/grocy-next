@@ -1,0 +1,32 @@
+services:
+  grocy-dev:
+    build: .
+    container_name: grocy-dev
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      # Mount config directory for persistence
+      - ./config:/config
+      
+      # Mount source code for live editing
+      - ./grocy-source/controllers:/app/www/controllers
+      - ./grocy-source/views:/app/www/views
+      - ./grocy-source/routes.php:/app/www/routes.php
+      - ./grocy-source/app.php:/app/www/app.php
+      - ./grocy-source/services:/app/www/services
+      - ./grocy-source/helpers:/app/www/helpers
+      - ./grocy-source/middleware:/app/www/middleware
+      
+      # Mount public directory but keep the packages subdirectory from container
+      - ./grocy-source/public/css:/app/www/public/css
+      - ./grocy-source/public/img:/app/www/public/img
+      - ./grocy-source/public/js:/app/www/public/js
+      - ./grocy-source/public/viewjs:/app/www/public/viewjs
+      # Don't mount public/packages - keep the built frontend assets from container
+      
+    ports:
+      - "9285:80"  # Different port to avoid conflict with production
+      - "9286:443"
+    restart: unless-stopped
