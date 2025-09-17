@@ -5,7 +5,7 @@
 
 echo "🧹 Clearing Grocy route cache..."
 
-if docker exec grocy-dev rm -f /config/data/viewcache/route_cache.php 2>/dev/null; then
+if docker exec grocy-dev rm -rf /config/data/viewcache/* 2>/dev/null; then
     echo "✅ Route cache cleared successfully"
     echo "🔄 Routes will be reloaded on next request"
 else
