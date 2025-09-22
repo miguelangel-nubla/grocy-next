@@ -19,12 +19,12 @@ services:
       - ./grocy-source/helpers:/app/www/helpers
       - ./grocy-source/middleware:/app/www/middleware
       
-      # Mount public directory but keep the packages subdirectory from container
+      # Mount public directory including packages for development
       - ./grocy-source/public/css:/app/www/public/css
       - ./grocy-source/public/img:/app/www/public/img
       - ./grocy-source/public/js:/app/www/public/js
       - ./grocy-source/public/viewjs:/app/www/public/viewjs
-      # Don't mount public/packages - keep the built frontend assets from container
+      - ./grocy-source/public/packages:/app/www/public/packages
       
     ports:
       - "9285:80"  # Different port to avoid conflict with production
