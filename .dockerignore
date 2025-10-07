@@ -15,6 +15,7 @@ CHANGELOG.md
 # Docker files
 Dockerfile
 docker-compose.yml
+compose.dev.yaml
 compose.yaml
 
 # Development tools

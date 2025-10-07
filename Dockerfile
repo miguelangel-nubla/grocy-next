@@ -12,7 +12,12 @@ RUN \
   echo "**** install build packages ****" && \
   apk add --no-cache --virtual=build-dependencies \
     git \
-    yarn && \
+    yarn \
+    php84-dev \
+    gcc \
+    g++ \
+    make \
+    autoconf && \
   echo "**** install runtime packages ****" && \
   apk add --no-cache \
     php84-gd \
@@ -21,7 +26,11 @@ RUN \
     php84-opcache \
     php84-pdo \
     php84-pdo_sqlite \
-    php84-tokenizer && \
+    php84-tokenizer \
+    php84-pear && \
+  echo "**** install inotify via PECL ****" && \
+  pecl84 install inotify && \
+  echo "extension=inotify.so" > /etc/php84/conf.d/inotify.ini && \
   echo "**** configure php-fpm to pass env vars ****" && \
   sed -E -i 's/^;?clear_env ?=.*$/clear_env = no/g' /etc/php84/php-fpm.d/www.conf && \
   grep -qxF 'clear_env = no' /etc/php84/php-fpm.d/www.conf || echo 'clear_env = no' >> /etc/php84/php-fpm.d/www.conf && \
