@@ -1,3 +1,6 @@
+# Override project name to make dev independent from production compose
+name: grocy-dev
+
 services:
   grocy-dev:
     build: .
@@ -9,7 +12,7 @@ services:
     volumes:
       # Mount config directory for persistence
       - ./config:/config
-      
+
       # Mount source code for live editing
       - ./grocy-source/controllers:/app/www/controllers
       - ./grocy-source/views:/app/www/views
@@ -18,14 +21,14 @@ services:
       - ./grocy-source/services:/app/www/services
       - ./grocy-source/helpers:/app/www/helpers
       - ./grocy-source/middleware:/app/www/middleware
-      
+
       # Mount public directory including packages for development
       - ./grocy-source/public/css:/app/www/public/css
       - ./grocy-source/public/img:/app/www/public/img
       - ./grocy-source/public/js:/app/www/public/js
       - ./grocy-source/public/viewjs:/app/www/public/viewjs
       - ./grocy-source/public/packages:/app/www/public/packages
-      
+
     ports:
       - "9285:80"  # Different port to avoid conflict with production
       - "9286:443"
