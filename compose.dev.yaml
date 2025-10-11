@@ -21,6 +21,8 @@ services:
       - ./grocy-source/services:/app/www/services
       - ./grocy-source/helpers:/app/www/helpers
       - ./grocy-source/middleware:/app/www/middleware
+      - ./grocy-source/migrations:/app/www/migrations
+      - ./grocy-source/localization:/app/www/localization
 
       # Mount public directory including packages for development
       - ./grocy-source/public/css:/app/www/public/css
