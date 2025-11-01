@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+if [ ! -f /app/www/scripts/generate-openapi.php ]; then
+	exit 0
+fi
+
+echo "[openapi] Regenerating OpenAPI specification"
+if ! php /app/www/scripts/generate-openapi.php; then
+	echo "[openapi] Failed to regenerate OpenAPI specification" >&2
+fi

@@ -23,6 +23,8 @@ services:
       - ./grocy-source/middleware:/app/www/middleware
       - ./grocy-source/migrations:/app/www/migrations
       - ./grocy-source/localization:/app/www/localization
+      - ./grocy-source/scripts:/app/www/scripts
+      - ./grocy-source/grocy.openapi.json:/app/www/grocy.openapi.json
 
       # Mount public directory including packages for development
       - ./grocy-source/public/css:/app/www/public/css

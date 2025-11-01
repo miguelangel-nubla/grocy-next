@@ -43,6 +43,8 @@ COPY grocy-source/ /app/www/
 RUN \
   echo "**** install composer packages ****" && \
   composer install -d /app/www --no-dev && \
+  echo "**** refresh OpenAPI specification ****" && \
+  php /app/www/scripts/generate-openapi.php && \
   echo "**** install yarn packages ****" && \
   cd /app/www && \
   rm -f .git && \
