@@ -1,3 +1,4 @@
 [submodule "grocy-source"]
 	path = grocy-source
 	url = https://github.com/miguelangel-nubla/grocy-source
+	branch = master
